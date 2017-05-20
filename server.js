@@ -4,10 +4,14 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
+var logger = require("morgan")
+var request = require("request")
 
 var PORT = process.env.PORT || 3000
 
 var app = express();
+
+app.use(logger("dev"))
 
 // Requiring our models for syncing
 var db = require("./models")
