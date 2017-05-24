@@ -6,6 +6,12 @@ module.exports = function (sequelize, DataTypes) {
                 len: [1]
             }
         },
+        password: {
+            type: DataTypes.STRING,
+            validate: {
+                len: [1]
+            }
+        },
         updatedAt: {
             type: DataTypes.DATE(3),
                 allowNull: false,
@@ -21,20 +27,17 @@ module.exports = function (sequelize, DataTypes) {
 
             classMethods: {
                 associate: function (models) {
-                    User.hasMany(models.Expenses, {
-                        onDelete: "cascade"
-                    }
-                    )
-                },
-                associate: function (models) {
-                    User.hasMany(models.Budget, {
+                    User.hasMany(models.Expense, {
                         onDelete: "cascade"
                     })
-                },
-                associate: function (models) {
                     User.hasMany(models.Goal, {
                         onDelete: "cascade"
                     })
+                    User.hasMany(models.Budget, {
+                        onDelete: "cascade"
+                    })
+
+
                 }
             }
 
