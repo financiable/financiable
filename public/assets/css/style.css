@@ -15,7 +15,27 @@ body {
     background-size: cover;
 }
 
+img {
+    opacity: .5;
+}
 .btn-success {
     background-color: #003087;
     border-color: #003087;
+}
+
+.navbar-brand {
+    background: url(../images/fiananciable-01.png) no-repeat 6px center;
+    width: 425px;
+    height: 55px;
+    display: block;
+}
+
+.jumbotron h1 {
+    color: white;
+    text-align: center;
+}
+
+.jumbotron p {
+    color: white;
+    font-weight: 500;
 }
