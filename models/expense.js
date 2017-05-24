@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-    var Expenses = sequelize.define("Expenses", {
+    var Expense = sequelize.define("Expense", {
             groceries: {
                 type: DataTypes.INTEGER,
                 defaultValue: 0
@@ -32,16 +32,14 @@ module.exports = function(sequelize, DataTypes) {
             }
         },
         {
-            // We're saying that we want our Author to have Posts
             classMethods: {
-                associate: function(models) {
-                    // An Author (foreignKey) is required or a Post can't be made
-                    Expenses.belongsTo(models.User, {//                foreignKey: {
-                        allowNull: false//                }
-                    });
+                associate: function (models) {
+                    Expense.belongsTo(models.User, {
+                        allowNull: false
+                    })
                 }
             }
         }
     );
-    return Expenses;
+    return Expense;
 };

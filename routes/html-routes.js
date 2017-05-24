@@ -12,17 +12,53 @@ var db = require("../models")
 // Routes
 // =============================================================
 module.exports = function (app) {
-
-    //Takes you to home page
+var mockData = [
+    {
+        id: 1,
+        name: "Bob",
+        password: "123456123",
+        updatedAt: "2017-05-24T03:17:44.854Z",
+        createdAt: "2017-05-24T03:17:44.854Z",
+        Goals: [
+            {
+                id: 1,
+                targetGoal: 30,
+                updatedAt: "2017-05-24T03:18:37.972Z",
+                createdAt: "2017-05-24T03:18:37.972Z",
+                UserId: 1
+            }
+        ],
+        Budgets: [
+            {
+                id: 1,
+                salary: 1,
+                saving: 1,
+                updatedAt: "2017-05-24T03:19:12.049Z",
+                createdAt: "2017-05-24T03:19:12.049Z",
+                UserId: 1
+            }
+        ],
+        Expenses: [
+            {
+                id: 1,
+                groceries: 30,
+                gas: 20,
+                mortgage: 10,
+                utilities: 12,
+                miscellaneous: 30,
+                updatedAt: "2017-05-24T03:18:59.203Z",
+                createdAt: "2017-05-24T03:18:59.203Z",
+                UserId: 1
+            }
+        ]
+    }
+]
     app.get("/test", function (req, res) {
-        var mockObject = {users: [
-            {name: "Bob is a mocking Genius"},
-            {name: "Sergio"},
-            {name: "Russel is a mocking Genius"},
-            {name: "Jimmy is a mocking Genius"},
-            ]
-        };
-        res.render('create', mockObject)
+        db.User.findAll({
+            include: [db.Goal, db.Budget, db.Expense]
+            }).then(function (dbUser) {
+            res.render("create", dbUser)
+        })
     });
 
     //Create a new customer profile
