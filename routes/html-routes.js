@@ -11,11 +11,18 @@ var db = require("../models")
 
 // Routes
 // =============================================================
-module.exports = function(app) {
+module.exports = function (app) {
 
     //Takes you to home page
-    app.get("/", function(req, res) {
-
+    app.get("/test", function (req, res) {
+        var mockObject = {users: [
+            {name: "Bob is a mocking Genius"},
+            {name: "Sergio"},
+            {name: "Russel is a mocking Genius"},
+            {name: "Jimmy is a mocking Genius"},
+            ]
+        };
+        res.render('create', mockObject)
     });
 
     //Create a new customer profile
