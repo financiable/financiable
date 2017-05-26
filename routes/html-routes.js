@@ -54,11 +54,39 @@ var mockData = [
     }
 ]
     app.get("/test", function (req, res) {
-        db.User.findAll({
-            include: [db.Goal, db.Budget, db.Expense]
-            }).then(function (dbUser) {
-            res.render("create", dbUser)
-        })
+        //db.User.findAll({
+             // include: [db.Goal, db.Budget, db.Expense]
+            //}).then(function (dbUser) {
+        res.render("login");
+           // res.render("create", dbUser)
+  //      })
+    });
+
+    app.get("/", function (req, res) {
+        //db.User.findAll({
+        // include: [db.Goal, db.Budget, db.Expense]
+        //}).then(function (dbUser) {
+        res.render("login");
+        // res.render("create", dbUser)
+        //      })
+    });
+
+    app.get("/create", function (req, res) {
+        //db.User.findAll({
+        // include: [db.Goal, db.Budget, db.Expense]
+        //}).then(function (dbUser) {
+        res.render("create");
+        // res.render("create", dbUser)
+        //      })
+    });
+
+    app.get("/dashbar", function (req, res) {
+        //db.User.findAll({
+        // include: [db.Goal, db.Budget, db.Expense]
+        //}).then(function (dbUser) {
+        res.render("dashbar");
+        // res.render("create", dbUser)
+        //      })
     });
 
     //Create a new customer profile
