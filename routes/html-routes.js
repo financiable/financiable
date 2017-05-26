@@ -91,7 +91,6 @@ var mockData = [
 
     //Create a new customer profile
     app.post("/create", function (req, res) {
-
     });
 
     //Update customer's info for selected month
