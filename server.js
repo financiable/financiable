@@ -30,7 +30,7 @@ passport.use(new Strategy(
                     return cb(null, false);
                 }
                 if (data.password != password) { return cb(null, false); }
-                return cb(null, data);
+                return cb(null, data)
             });
     }
     ));
