@@ -23,6 +23,7 @@ module.exports = function(sequelize, DataTypes) {
             }
         },
         {
+            freezeTableName: true,
             classMethods: {
                 associate: function (models) {
                     Budget.belongsTo(models.User, {

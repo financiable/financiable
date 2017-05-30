@@ -16,6 +16,7 @@ module.exports = function (sequelize, DataTypes) {
         }
     },
         {
+            freezeTableName: true,
             classMethods: {
                 associate: function (models) {
                     Goal.belongsTo(models.User, {

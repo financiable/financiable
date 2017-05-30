@@ -12,6 +12,12 @@ module.exports = function (sequelize, DataTypes) {
                 len: [1]
             }
         },
+        email: {
+            type: DataTypes.STRING,
+            validate: {
+                isEmail: true
+            }
+        },
         updatedAt: {
             type: DataTypes.DATE(3),
                 allowNull: false,
@@ -24,7 +30,7 @@ module.exports = function (sequelize, DataTypes) {
             }
     },
         {
-
+            freezeTableName: true,
             classMethods: {
                 associate: function (models) {
                     User.hasMany(models.Expense, {
@@ -42,6 +48,6 @@ module.exports = function (sequelize, DataTypes) {
             }
 
         }
-    );
+    )
     return User;
 }

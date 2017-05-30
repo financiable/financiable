@@ -7,6 +7,8 @@
 // *********************************************************************************
 var express = require("express")
 
+var passport = require("passport")
+
 var db = require("../models")
 
 // Routes
@@ -53,41 +55,42 @@ var mockData = [
         ]
     }
 ]
-    app.get("/test", function (req, res) {
-        //db.User.findAll({
-             // include: [db.Goal, db.Budget, db.Expense]
-            //}).then(function (dbUser) {
-        res.render("login");
-           // res.render("create", dbUser)
-  //      })
+    app.post("/test", function (req, res) {
+        db.User.findOne({
+            where: {name: "Cindy"},
+            include: [db.Goal, db.Budget, db.Expense]
+        }).then(function (dbUser) {
+            res.json(dbUser);
+        })
+    });
+
+    app.post('/login', function(req, res, next) {
+        passport.authenticate('local', function(err, data) {
+            if (!data) { return res.render('failure'); }
+            req.logIn(data, function(err) {
+                if (err) { return next(err); }
+                return res.render('dashbar');
+            });
+        })
+        (req, res, next);
     });
 
     app.get("/", function (req, res) {
-        //db.User.findAll({
-        // include: [db.Goal, db.Budget, db.Expense]
-        //}).then(function (dbUser) {
-        res.render("login");
-        // res.render("create", dbUser)
-        //      })
+        res.render("login")
     });
+
+    app.get('/logout', function (req, res) {
+        req.logOut()
+        res.redirect("/")
+    })
 
     app.get("/create", function (req, res) {
-        //db.User.findAll({
-        // include: [db.Goal, db.Budget, db.Expense]
-        //}).then(function (dbUser) {
         res.render("create");
-        // res.render("create", dbUser)
-        //      })
     });
 
-    app.get("/dashbar", function (req, res) {
-        //db.User.findAll({
-        // include: [db.Goal, db.Budget, db.Expense]
-        //}).then(function (dbUser) {
-        res.render("dashbar");
-        // res.render("create", dbUser)
-        //      })
-    });
+    app.get("/", function (req, res) {
+        res.render("login")
+    })
 
     //Create a new customer profile
     app.post("/create", function (req, res) {
@@ -103,4 +106,5 @@ var mockData = [
 
     });
 
-};
+}
+

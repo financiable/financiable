@@ -7,7 +7,7 @@ var methodOverride = require("method-override");
 var logger = require("morgan")
 var request = require("request")
 var passport = require('passport')
-var LocalStrategy = require('passport-local').Strategy
+var Strategy = require('passport-local').Strategy
 var PORT = process.env.PORT || 3000
 
 var app = express();
@@ -20,18 +20,28 @@ var db = require("./models")
 
 passport.use(new Strategy(
     function(username, password, cb) {
-        db.User.findOne({ where: {
-            name: username,
-            password: password
-        }
-        }
-        , function(err, user) {
-            if (err) { return cb(err); }
-            if (!user) { return cb(null, false); }
-            if (user.password != password) { return cb(null, false); }
-            return cb(null, user);
-        });
-    }));
+        db.User.findOne({
+            where: {name: username},
+            include: [db.Goal, db.Budget, db.Expense]
+        })
+            .then (function (data) {
+                console.log("Strategy is working" + data)
+                if (!data) {
+                    return cb(null, false);
+                }
+                if (data.password != password) { return cb(null, false); }
+                return cb(null, data);
+            });
+    }
+    ));
+
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
 
 
 // Serve static content for the app from the "public" directory in the application directory.
@@ -51,25 +61,16 @@ var exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 require("./routes/html-routes.js")(app);
-//require("./routes/burger-api-routes.js")(app);
-//require("./routes/customer-api-routes.js")(app);
 
 db.sequelize.sync({ force: false }).then(function () {
     app.listen(PORT, function () {
         console.log("App listening on PORT " + PORT)
     })
-
-
-
-
-
-
-
-
-
-
 })
+
