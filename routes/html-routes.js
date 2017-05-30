@@ -37,7 +37,26 @@ var mockData = [
                 saving: 1,
                 updatedAt: "2017-05-24T03:19:12.049Z",
                 createdAt: "2017-05-24T03:19:12.049Z",
-                UserId: 1
+                UserId: 1,
+                Month: "January"
+            },
+            {
+                id: 1,
+                salary: 1,
+                saving: 1,
+                updatedAt: "2017-05-24T03:19:12.049Z",
+                createdAt: "2017-05-24T03:19:12.049Z",
+                UserId: 1,
+                Month: "May"
+            },
+            {
+                id: 1,
+                salary: 1,
+                saving: 1,
+                updatedAt: "2017-05-24T03:19:12.049Z",
+                createdAt: "2017-05-24T03:19:12.049Z",
+                UserId: 1,
+                Month: "January"
             }
         ],
         Expenses: [
@@ -50,8 +69,35 @@ var mockData = [
                 miscellaneous: 30,
                 updatedAt: "2017-05-24T03:18:59.203Z",
                 createdAt: "2017-05-24T03:18:59.203Z",
-                UserId: 1
-            }
+                UserId: 1,
+                Month: "May"
+            },
+            {
+                id: 2,
+                groceries: 30,
+                gas: 10,
+                mortgage: 20,
+                utilities: 10,
+                miscellaneous: 20,
+                updatedAt: "2017-05-24T03:18:59.203Z",
+                createdAt: "2017-05-24T03:18:59.203Z",
+                UserId: 1,
+                Month: "June",
+            },
+            {
+                id: 2,
+                groceries: 30,
+                gas: 10,
+                mortgage: 20,
+                utilities: 10,
+                miscellaneous: 20,
+                updatedAt: "2017-05-24T03:18:59.203Z",
+                createdAt: "2017-05-24T03:18:59.203Z",
+                UserId: 1,
+                Month: "January",
+            },
+
+
         ]
     }
 ]
