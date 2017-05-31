@@ -103,7 +103,14 @@ var mockData = [
     }
 ]
     app.get("/test", function (req, res) {
-        res.render('failure');
+
+        var object =  {
+            User : mockData
+        };
+        console.log(object);
+        res.render("dashbar", object);
+
+
     });
 
     app.post('/login', function(req, res, next) {
