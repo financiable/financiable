@@ -43,6 +43,7 @@ var mockData = [
         Expenses: [
             {
                 id: 1,
+                month: "may",
                 groceries: 30,
                 gas: 20,
                 mortgage: 10,
@@ -55,13 +56,8 @@ var mockData = [
         ]
     }
 ]
-    app.post("/test", function (req, res) {
-        db.User.findOne({
-            where: {name: "Cindy"},
-            include: [db.Goal, db.Budget, db.Expense]
-        }).then(function (dbUser) {
-            res.json(dbUser);
-        })
+    app.get("/test", function (req, res) {
+        res.render('failure');
     });
 
     app.post('/login', function(req, res, next) {
