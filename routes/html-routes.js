@@ -62,6 +62,7 @@ var mockData = [
         Expenses: [
             {
                 id: 1,
+                month: "may",
                 groceries: 30,
                 gas: 20,
                 mortgage: 10,
@@ -108,6 +109,7 @@ var mockData = [
         };
         console.log(object);
         res.render("dashbar", object);
+
 
     });
 
