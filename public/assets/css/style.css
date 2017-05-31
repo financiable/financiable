@@ -21,12 +21,21 @@ img {
 .btn-success {
     background-color: #003087;
     border-color: #003087;
+    float: right;
+    margin-left: 10px;
+}
+
+.btn-success {
+    background-color: #003087;
+    border-color: #003087;
+    float: right;
+    margin-left: 10px;
 }
 
 .navbar-brand {
     background: url(../images/fiananciable-01.png) no-repeat 6px center;
     width: 425px;
-    height: 55px;
+    height: 75px;
     display: block;
 }
 
@@ -39,3 +48,27 @@ img {
     color: white;
     font-weight: 500;
 }
+
+.navbar-inverse .navbar-form {
+    border-color: white;
+    margin-top: 20px;
+}
+
+.navbar-inverse {
+    background-color: white;
+    border-color: white;
+    height: 80px;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    margin-top: 10px;
+}
+
+navbar-form navbar-right2 {
+    float: auto;
+
+}
+
