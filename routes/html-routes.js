@@ -140,6 +140,8 @@ var mockData = [
 
     //Create a new customer profile
     app.post("/create", function (req, res) {
+        db.User.findOrCreate
+    }
     });
 
     //Update customer's info for selected month
