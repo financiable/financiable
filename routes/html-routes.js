@@ -101,13 +101,14 @@ var mockData = [
         ]
     }
 ]
-    app.post("/test", function (req, res) {
-        db.User.findOne({
-            where: {name: "Cindy"},
-            include: [db.Goal, db.Budget, db.Expense]
-        }).then(function (dbUser) {
-            res.json(dbUser);
-        })
+    app.get("/test", function (req, res) {
+
+        var object =  {
+            User : mockData
+        };
+        console.log(object);
+        res.render("dashbar", object);
+
     });
 
     app.post('/login', function(req, res, next) {
