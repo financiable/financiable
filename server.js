@@ -9,11 +9,23 @@ var request = require("request")
 var passport = require('passport')
 var Strategy = require('passport-local').Strategy
 var PORT = process.env.PORT || 3000
+var expressSession = require('express-session');
+var cookieParser = require("cookie-parser")
+var flash = require("connect-flash")
 
 var app = express();
 
+app.use(cookieParser())
+
+app.use(flash())
+
 app.use(logger("dev"))
 
+app.use(expressSession({
+    secret: 'DingDong',
+    resave: true,
+    saveUninitialized: true
+}));
 
 // Requiring our models for syncing
 var db = require("./models")
@@ -36,11 +48,15 @@ passport.use(new Strategy(
     ));
 
 passport.serializeUser(function(user, done) {
-    done(null, user);
+    console.log('serializing user: ' + ' ' + user)
+    done(null, user.id);
 });
 
-passport.deserializeUser(function(user, done) {
-    done(null, user);
+passport.deserializeUser(function(id, done) {
+    db.User.findOne({Where: {id: id}}, function (err, user) {
+        console.log('deserializingUser: ' + " " + user)
+        done(err, user);
+    })
 });
 
 
@@ -60,8 +76,6 @@ var exphbs = require("express-handlebars");
 
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
-
-
 
 app.use(passport.initialize());
 app.use(passport.session());

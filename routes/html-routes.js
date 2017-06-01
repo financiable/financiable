@@ -143,9 +143,21 @@ var mockData = [
 
     //Create a new customer profile
     app.post("/create", function (req, res) {
-        db.User.findOrCreate
-    }
-    });
+        console.log(req.body)
+        db.User.findOrCreate({
+            where: {name: req.body.name},
+            defaults: {email: req.body.email, password: req.body.password}
+        })
+            .spread(function(user, created)
+        {
+            console.log(user.get({
+                plain: true
+            }))
+            console.log(created)
+        }
+        )
+        res.redirect(("/"))
+    })
 
     //Update customer's info for selected month
     app.put("/id/:month", function (req, res) {
