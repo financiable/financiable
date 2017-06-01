@@ -159,15 +159,11 @@ var mockData = [
 
 
     //Create a new customer profile
-    app.post("/create", function(req, res, next) {
-        console.log(req.body.name)
-            passport.authenticate("local-create", function(err, user) {
-                if (err) { return next(err); }
-                if (!user) { return res.send("failure to create"); }
-                return res.redirect("User created")
-            })(req, res, next);
-        }
-        )
+    app.post('/create',
+        passport.authenticate('local-create', { successRedirect: '/',
+            failureRedirect: '/login',
+            failureFlash: true })
+    );
 
     //Update customer's info for selected month
     app.put("/id/:month", function (req, res) {

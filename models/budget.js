@@ -11,6 +11,10 @@ module.exports = function(sequelize, DataTypes) {
                 type: DataTypes.INTEGER,
                 allowNull: false
             },
+            month: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
             updatedAt: {
                 type: DataTypes.DATE(3),
                 allowNull: false,

@@ -51,16 +51,17 @@ passport.use("local-login" , new LocalStrategy(
     );
 
 passport.use("local-create", new LocalStrategy(
-    function (req, res, next) {
+    function (req, username, password, done) {
         db.User.findOrCreate({
             where: {name: req.body.name},
             defaults: {email: req.body.email, password: req.body.password}
         })
             .then(function (data) {
-                return cb(null, user)
+                return done(null, data)
             })
     })
 )
+
 
 
 passport.serializeUser(function(user, done) {
@@ -96,7 +97,7 @@ app.use(passport.session());
 
 require("./routes/html-routes.js")(app, passport);
 
-db.sequelize.sync({ force: false }).then(function () {
+db.sequelize.sync({ force: true }).then(function () {
     app.listen(PORT, function () {
         console.log("App listening on PORT " + PORT)
     })
