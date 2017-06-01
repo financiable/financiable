@@ -7,6 +7,10 @@ module.exports = function(sequelize, DataTypes) {
                     len: [1]
                 }
             },
+            month: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
             saving: {
                 type: DataTypes.INTEGER,
                 allowNull: false

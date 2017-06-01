@@ -18,11 +18,11 @@
         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Month
             <span class="caret"></span></button>
         <ul class="dropdown-menu">
-            {{#each User}}
+
             {{#each Budgets}}
-                <li><a href="/{{this.id}}/{{this.Month}}">{{this.Month}}</a></li>
+                <li><a href="/{{this.id}}/{{this.month}}">{{this.month}}</a></li>
             {{/each}}
-            {{/each}}
+
         </ul>
     </div>
 

@@ -130,19 +130,18 @@ var mockData = [
         if (req.isAuthenticated())
             return next();
         res.redirect('/');
-    }
+    };
 
     app.get("/failure", function (req, res) {
         res.render("failure")
-    })
+    });
 
     app.get("/dashbar/:id/", isAuthenticated , function (req, res) {
-        console.log("data: " + req.user)
-        var hbsObject = {
-            User: req.user
-        }
+        console.log("data: " + req.user);
+        var hbsObject =  req.user;
+        //res.json(hbsObject)
         res.render("dashbar", hbsObject)
-    })
+    });
 
     app.get("/", function (req, res) {
         res.render("login")
