@@ -138,8 +138,7 @@ var mockData = [
 
     app.get("/dashbar/:id/", isAuthenticated , function (req, res) {
         console.log("data: " + req.user);
-        var hbsObject =  req.user;
-        //res.json(hbsObject)
+        var hbsObject =  req.user
         res.render("dashbar", hbsObject)
     });
 
