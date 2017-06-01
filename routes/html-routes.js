@@ -114,15 +114,35 @@ var mockData = [
     });
 
     app.post('/login', function(req, res, next) {
-        passport.authenticate('local', function(err, data) {
-            if (!data) { return res.render('failure'); }
-            req.logIn(data, function(err) {
+        passport.authenticate('local-login', function(err, user) {
+            if (err) { return next(err); }
+            if (!user) { return res.redirect('/failure'); }
+            req.logIn(user, function(err) {
                 if (err) { return next(err); }
-                return res.render('dashbar');
+                return res.redirect("/dashbar/" + user.id)
             });
-        })
-        (req, res, next);
+        })(req, res, next);
     });
+
+// As with any middleware it is quintessential to call next()
+// if the user is authenticated
+    var isAuthenticated = function (req, res, next) {
+        if (req.isAuthenticated())
+            return next();
+        res.redirect('/');
+    }
+
+    app.get("/failure", function (req, res) {
+        res.render("failure")
+    })
+
+    app.get("/dashbar/:id/", isAuthenticated , function (req, res) {
+        console.log("data: " + req.user)
+        var hbsObject = {
+            User: req.user
+        }
+        res.render("dashbar", hbsObject)
+    })
 
     app.get("/", function (req, res) {
         res.render("login")

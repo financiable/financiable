@@ -7,11 +7,12 @@ var methodOverride = require("method-override");
 var logger = require("morgan")
 var request = require("request")
 var passport = require('passport')
-var Strategy = require('passport-local').Strategy
+var LocalStrategy = require('passport-local').Strategy
 var PORT = process.env.PORT || 3000
 var expressSession = require('express-session');
 var cookieParser = require("cookie-parser")
 var flash = require("connect-flash")
+var crypt = require("bcrypt-nodejs")
 
 var app = express();
 
@@ -30,33 +31,49 @@ app.use(expressSession({
 // Requiring our models for syncing
 var db = require("./models")
 
-passport.use(new Strategy(
+passport.use("local-login" , new LocalStrategy(
     function(username, password, cb) {
-        db.User.findOne({
-            where: {name: username},
-            include: [db.Goal, db.Budget, db.Expense]
+            db.User.findOne({
+                where: {name: username},
+                include: [db.Goal, db.Budget, db.Expense]
+            })
+                .then(function (data) {
+                    console.log("Strategy is working" + data)
+                    if (!data) {
+                        return cb(null, false);
+                    }
+                    if (data.password != password) {
+                        return cb(null, false);
+                    }
+                    return cb(null, data)
+                });
+
+
+    })
+    );
+
+passport.use("local-signup", new LocalStrategy(
+    function (req, cb) {
+        process.nextTick(function () {
+            db.User.findOrCreate({
+                where: {name: req.body.name},
+                defaults: {email: req.body.email, password: req.body.password}
+            })
+                .spread(function (user, created) {
+                    return cb(null, user)
+                })
         })
-            .then (function (data) {
-                console.log("Strategy is working" + data)
-                if (!data) {
-                    return cb(null, false);
-                }
-                if (data.password != password) { return cb(null, false); }
-                return cb(null, data)
-            });
     }
-    ));
+))
 
 passport.serializeUser(function(user, done) {
     console.log('serializing user: ' + ' ' + user)
-    done(null, user.id);
+    done(null, user);
 });
 
-passport.deserializeUser(function(id, done) {
-    db.User.findOne({Where: {id: id}}, function (err, user) {
-        console.log('deserializingUser: ' + " " + user)
-        done(err, user);
-    })
+passport.deserializeUser(function(user, done) {
+    console.log("deserializing user: " + " " + user)
+    done(null, user)
 });
 
 
@@ -80,7 +97,7 @@ app.set("view engine", "handlebars");
 app.use(passport.initialize());
 app.use(passport.session());
 
-require("./routes/html-routes.js")(app);
+require("./routes/html-routes.js")(app, passport);
 
 db.sequelize.sync({ force: false }).then(function () {
     app.listen(PORT, function () {
