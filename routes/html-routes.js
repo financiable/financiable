@@ -157,27 +157,17 @@ var mockData = [
         res.render("create");
     });
 
-    app.get("/", function (req, res) {
-        res.render("login")
-    })
 
     //Create a new customer profile
-    app.post("/create", function (req, res) {
-        console.log(req.body)
-        db.User.findOrCreate({
-            where: {name: req.body.name},
-            defaults: {email: req.body.email, password: req.body.password}
-        })
-            .spread(function(user, created)
-        {
-            console.log(user.get({
-                plain: true
-            }))
-            console.log(created)
+    app.post("/create", function(req, res, next) {
+        console.log(req.body.name)
+            passport.authenticate("local-create", function(err, user) {
+                if (err) { return next(err); }
+                if (!user) { return res.send("failure to create"); }
+                return res.redirect("User created")
+            })(req, res, next);
         }
         )
-        res.redirect(("/"))
-    })
 
     //Update customer's info for selected month
     app.put("/id/:month", function (req, res) {

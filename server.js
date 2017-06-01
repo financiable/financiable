@@ -47,24 +47,21 @@ passport.use("local-login" , new LocalStrategy(
                     }
                     return cb(null, data)
                 });
-
-
     })
     );
 
-passport.use("local-signup", new LocalStrategy(
-    function (req, cb) {
-        process.nextTick(function () {
-            db.User.findOrCreate({
-                where: {name: req.body.name},
-                defaults: {email: req.body.email, password: req.body.password}
-            })
-                .spread(function (user, created) {
-                    return cb(null, user)
-                })
+passport.use("local-create", new LocalStrategy(
+    function (req, res, next) {
+        db.User.findOrCreate({
+            where: {name: req.body.name},
+            defaults: {email: req.body.email, password: req.body.password}
         })
-    }
-))
+            .then(function (data) {
+                return cb(null, user)
+            })
+    })
+)
+
 
 passport.serializeUser(function(user, done) {
     console.log('serializing user: ' + ' ' + user)
