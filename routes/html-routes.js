@@ -108,10 +108,14 @@ var mockData = [
             User : mockData
         };
         console.log(object);
-        res.render("dashbar", object);
+        res.render("dashboard", object);
 
 
     });
+
+    app.post("/:id/add", function (req, res) {
+
+    })
 
     app.post('/login', function(req, res, next) {
         passport.authenticate('local-login', function(err, user) {
@@ -119,7 +123,7 @@ var mockData = [
             if (!user) { return res.redirect('/failure'); }
             req.logIn(user, function(err) {
                 if (err) { return next(err); }
-                return res.redirect("/dashbar/" + user.id)
+                return res.redirect("/dashboard/" + user.id)
             });
         })(req, res, next);
     });
@@ -136,11 +140,22 @@ var mockData = [
         res.render("failure")
     });
 
-    app.get("/dashbar/:id/", isAuthenticated , function (req, res) {
-        console.log("data: " + req.user);
+    app.get("/dashboard/:id/", isAuthenticated , function (req, res) {
         var hbsObject =  req.user
-        res.render("dashbar", hbsObject)
+        res.render("dashboard", hbsObject)
     });
+
+    app.get("/dashboard/:id/:month",isAuthenticated, function (req, res) {
+        db.User.findOne({ where: {id: req.params.id},
+        include: [ { model: db.Goal},
+                    { model: db.Budget, where: {month: req.params.month}},
+                    { model: db.Expense, where: {month: req.params.month}}
+        ]
+        } )
+            .then(function (data) {
+                res.render("dashboard", data)
+            })
+    })
 
     app.get("/", function (req, res) {
         res.render("login")
@@ -151,27 +166,35 @@ var mockData = [
         res.redirect("/")
     })
 
+    app.get('/dashboard/:id/:month/edit', function (req, res) {
+
+    })
+
     app.get("/create", function (req, res) {
         res.render("create");
     });
 
 
     //Create a new customer profile
-    app.post('/create',
-        passport.authenticate('local-create', { successRedirect: '/',
-            failureRedirect: '/login',
-            failureFlash: true })
+    app.post('/create', function (req, res) {
+        db.User.findOrCreate({
+            where: {name: req.body.name},
+            defaults: {email: req.body.email, password: req.body.password}
+        })
+            .then(function (err, data) {
+                if (err)
+                    throw err
+                else res.redirect("/")
+            })
+        }
+
     );
 
     //Update customer's info for selected month
-    app.put("/id/:month", function (req, res) {
+    app.put("/dashboard/:id/:month/edit", function (req, res) {
 
     });
 
-    //Retrieve customer's info for selected month
-    app.get("/id/:month", function (req, res) {
-
-    });
 
 }
 
