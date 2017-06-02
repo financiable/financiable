@@ -35,10 +35,10 @@ module.exports = function (sequelize, DataTypes) {
                 associate: function (models) {
                     User.hasMany(models.Expense, {
                         onDelete: "cascade"
-                    })
+                    });
                     User.hasMany(models.Goal, {
                         onDelete: "cascade"
-                    })
+                    });
                     User.hasMany(models.Budget, {
                         onDelete: "cascade"
                     })
@@ -48,6 +48,6 @@ module.exports = function (sequelize, DataTypes) {
             }
 
         }
-    )
+    );
     return User;
-}
+};
