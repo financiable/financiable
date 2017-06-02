@@ -138,8 +138,7 @@ var mockData = [
 
     app.get("/dashbar/:id/", isAuthenticated , function (req, res) {
         console.log("data: " + req.user);
-        var hbsObject =  req.user;
-        //res.json(hbsObject)
+        var hbsObject =  req.user
         res.render("dashbar", hbsObject)
     });
 
@@ -161,6 +160,7 @@ var mockData = [
     });
 
     //Create a new customer profile
+
     app.post("/create", function(req, res, next) {
         console.log(req.body.name);
             passport.authenticate("local-create", function(err, user) {
