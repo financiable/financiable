@@ -13,10 +13,10 @@
 
                 </div>
                 <div class="panel-body">
-                    <form action="/add" method="POST" role="form">
+                    <form action="/{{this.id}}/add" method="POST" role="form">
                         <div class="form-group">
-
                             <br>
+
                             <div class="panel-title">
                                 <h3 class="panel-title"><strong>SUMMARY</strong></h3>
                                 <br>
@@ -28,7 +28,7 @@
                             </div>
 
                             <br>
-                            <div class="panel-title">
+                            <form class="panel-title">
                                 <h3 class="panel-title"><strong>EXPENSES</strong></h3>
                                 <br>
 
@@ -54,7 +54,7 @@
                             </div>
 
                             <br>
-                            <div class="panel-title">
+                            <form class="panel-title">
                                 <h3 class="panel-title"><strong>BUDGET</strong></h3>
                                 <br>
                                 <div class="form-group">
@@ -72,12 +72,13 @@
                         <div class="text-right">
                             <button type="submit" class="btn btn-primary btn-md" >Post</button>
                         </div>
+                            </form>
                     </form>
                     <br>
                 </div>
+                    </form>
             </div>
-
-        </div>
+            </div>
     </div>
 </div>
 
