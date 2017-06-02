@@ -14,19 +14,15 @@
         <h3>Dashboard</h3>
         <hr>
     </div>
-    <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Month
-            <span class="caret"></span></button>
-        <ul class="dropdown-menu">
+    {{#each User}}
+    <h1>{{this.id}}</h1>
+    {{/each}}
 
-            {{#each Budgets}}
-                <li><a href="/dashboard/{{../id}}/{{this.month}}">{{this.month}}</a></li>
-            {{/each}}
+    <form action="/dashboard/{{User.id}}/{{User.Budgets.[0].month}}/edit" method="GET">
+        <button type="submit" class="btn btn-primary btn-md"> Edit </button>
+    </form>
 
-        </ul>
-    </div>
-
-    <form action="/{{this.id}}/add" method="GET">
+    <form action="/{{User.id}}/add" method="GET">
         <button type="submit" class="btn btn-primary btn-md"> Add </button>
     </form>
 
@@ -34,5 +30,3 @@
 
 
 </div>
-
-

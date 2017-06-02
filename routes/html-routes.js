@@ -141,11 +141,12 @@ var mockData = [
     });
 
     app.get("/dashboard/:id/", isAuthenticated , function (req, res) {
-        var hbsObject =  req.user
-        res.render("dashboard", hbsObject)
+        var hbsObject =  req.user;
+        //res.json(hbsObject);
+        res.render("dashboard", hbsObject);
     });
 
-    app.get("/dashboard/:id/:month",isAuthenticated, function (req, res) {
+    app.get("/dashboard/:id/:month", function (req, res) {
         db.User.findOne({ where: {id: req.params.id},
         include: [ { model: db.Goal},
                     { model: db.Budget, where: {month: req.params.month}},
@@ -153,7 +154,10 @@ var mockData = [
         ]
         } )
             .then(function (data) {
-                res.render("dashboard", data)
+                var hbsObject = {User: data};
+                //res.json(data);
+                //console.log(data.id);
+                res.render("dashsummary", hbsObject)
             })
     })
 
@@ -167,7 +171,7 @@ var mockData = [
     });
 
     app.get('/dashboard/:id/:month/edit', function (req, res) {
-
+        res.send("We got there");
     })
 
     app.get("/create", function (req, res) {
