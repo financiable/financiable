@@ -174,8 +174,8 @@ var mockData = [
         res.render("create");
     });
 
-    app.get("/:id/add", function (req, res) {
-        res.render("add");
+    app.get("/:id/add", isAuthenticated, function (req, res) {
+        res.render("add", req.user);
     });
 
     //Create a new customer profile
