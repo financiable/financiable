@@ -4,23 +4,23 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
-var logger = require("morgan")
-var request = require("request")
-var passport = require('passport')
-var LocalStrategy = require('passport-local').Strategy
-var PORT = process.env.PORT || 3000
+var logger = require("morgan");
+var request = require("request");
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var PORT = process.env.PORT || 3000;
 var expressSession = require('express-session');
-var cookieParser = require("cookie-parser")
-var flash = require("connect-flash")
-var crypt = require("bcrypt-nodejs")
+var cookieParser = require("cookie-parser");
+var flash = require("connect-flash");
+var crypt = require("bcrypt-nodejs");
 
 var app = express();
 
-app.use(cookieParser())
+app.use(cookieParser());
 
-app.use(flash())
+app.use(flash());
 
-app.use(logger("dev"))
+app.use(logger("dev"));
 
 app.use(expressSession({
     secret: 'DingDong',
@@ -29,7 +29,7 @@ app.use(expressSession({
 }));
 
 // Requiring our models for syncing
-var db = require("./models")
+var db = require("./models");
 
 passport.use("local-login" , new LocalStrategy(
     function(username, password, cb) {
@@ -38,7 +38,7 @@ passport.use("local-login" , new LocalStrategy(
                 include: [db.Goal, db.Budget, db.Expense]
             })
                 .then(function (data) {
-                    console.log("Strategy is working" + data)
+                    console.log("Strategy is working" + data);
                     if (!data) {
                         return cb(null, false);
                     }
@@ -60,16 +60,16 @@ passport.use("local-create", new LocalStrategy(
                 return cb(null, user)
             })
     })
-)
+);
 
 
 passport.serializeUser(function(user, done) {
-    console.log('serializing user: ' + ' ' + user)
+    console.log('serializing user: ' + ' ' + user);
     done(null, user);
 });
 
 passport.deserializeUser(function(user, done) {
-    console.log("deserializing user: " + " " + user)
+    console.log("deserializing user: " + " " + user);
     done(null, user)
 });
 
@@ -100,5 +100,5 @@ db.sequelize.sync({ force: false }).then(function () {
     app.listen(PORT, function () {
         console.log("App listening on PORT " + PORT)
     })
-})
+});
 
