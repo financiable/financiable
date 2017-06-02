@@ -5,11 +5,11 @@
 // *********************************************************************************
 // html-routes.js - this file offers a set of routes for sending users to the various html pages
 // *********************************************************************************
-var express = require("express")
+var express = require("express");
 
-var passport = require("passport")
+var passport = require("passport");
 
-var db = require("../models")
+var db = require("../models");
 
 // Routes
 // =============================================================
@@ -101,7 +101,7 @@ var mockData = [
 
         ]
     }
-]
+];
     app.get("/test", function (req, res) {
 
         var object =  {
@@ -162,9 +162,9 @@ var mockData = [
     });
 
     app.get('/logout', function (req, res) {
-        req.logOut()
+        req.logOut();
         res.redirect("/")
-    })
+    });
 
     app.get('/dashboard/:id/:month/edit', function (req, res) {
 
@@ -174,6 +174,9 @@ var mockData = [
         res.render("create");
     });
 
+    app.get("/:id/add", function (req, res) {
+        res.render("add");
+    });
 
     //Create a new customer profile
     app.post('/create', function (req, res) {
@@ -190,11 +193,12 @@ var mockData = [
 
     );
 
+
     //Update customer's info for selected month
     app.put("/dashboard/:id/:month/edit", function (req, res) {
 
     });
 
 
-}
+};
 
