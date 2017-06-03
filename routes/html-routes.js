@@ -2,9 +2,6 @@
  * Created by esteb on 5/20/2017.
  */
 
-// *********************************************************************************
-// html-routes.js - this file offers a set of routes for sending users to the various html pages
-// *********************************************************************************
 var express = require("express");
 
 var passport = require("passport");
@@ -83,8 +80,6 @@ module.exports = function (app) {
         })(req, res, next);
     });
 
-// As with any middleware it is quintessential to call next()
-// if the user is authenticated
     var isAuthenticated = function (req, res, next) {
         if (req.isAuthenticated())
             return next();
@@ -128,7 +123,6 @@ module.exports = function (app) {
 
     app.get("/dashboard/:id/", isAuthenticated , function (req, res) {
         var hbsObject =  req.user;
-        //res.json(hbsObject);
         res.render("dashboard", hbsObject);
     });
 
@@ -144,8 +138,6 @@ module.exports = function (app) {
                                 totalExpenses: data.Expenses[0].totalExpenses,
                                 savings: data.Budgets[0].savings
                 };
-                //res.json(data);
-                //console.log(data.id);
                 res.render("dashsummary", hbsObject)
             })
     })
@@ -168,8 +160,6 @@ module.exports = function (app) {
         } )
             .then(function (data) {
                 var hbsObject = {User: data};
-                //res.json(data);
-                //console.log(data.id);
                 res.render("edit", hbsObject)
             })
 
