@@ -24,12 +24,12 @@
                 Target Goal:
             </li>
             <li class="list-group-item">
-                <span class="badge"></span>
-                Saving:
+                <span class="badge">{{User.Budgets.[0].earnings}}</span>
+                Monthly Earnings:
             </li>
             <li class="list-group-item">
-                <span class="badge"></span>
-                Average:
+                <span class="badge">{{savings}}</span>
+                You Saved:
             </li>
 
 
@@ -60,7 +60,7 @@
                 Miscellaneous:
             </li>
             <li class="list-group-item">
-                <span class="badge"></span>
+                <span class="badge">{{totalExpenses}}</span>
                 Total Expenses:
             </li>
 
@@ -73,6 +73,12 @@
 <div class = "summaryButtonEdit">
 <form action="/dashboard/{{User.id}}/{{User.Budgets.[0].month}}/edit" method="GET">
         <button type="submit" class="btn btn-primary btn-lg"> Edit </button>
+    </form>
+</div>
+
+<div class = "summaryButtonGoal">
+    <form action="/{{User.id}}/goal" method="GET">
+        <button type="submit" class="btn btn-primary btn-lg"> Change Goal </button>
     </form>
 </div>
 

@@ -2,9 +2,6 @@
  * Created by esteb on 5/20/2017.
  */
 
-// *********************************************************************************
-// html-routes.js - this file offers a set of routes for sending users to the various html pages
-// *********************************************************************************
 var express = require("express");
 
 var passport = require("passport");
@@ -15,25 +12,24 @@ var db = require("../models");
 // =============================================================
 module.exports = function (app) {
     app.get("/test", function (req, res) {
+        db.Budget.findOne({
+            where: {month: "May"}
+        })
+            .then(function (data) {
 
-        var object =  {
-            User : mockData
-        };
-        console.log(object);
-        res.render("dashboard", object);
+                console.log(data.savings)
+            })
 
 
     })
 
     app.post('/create', function (req, res) {
             db.User.findOrCreate({
-                where: {name: req.body.name},
-                defaults: {email: req.body.email, password: req.body.password}
+                where: {email: req.body.email},
+                defaults: {name: req.body.name, password: req.body.password}
             })
-                .then(function (err, data) {
-                    if (err)
-                        throw err
-                    else res.redirect("/")
+                .then(function (data) {
+                    res.redirect("/")
                 })
         }
 
@@ -52,15 +48,23 @@ module.exports = function (app) {
             }
         })
             .then(function (err, data) {
-                db.Budget.findOrCreate({
+                db.Expense.findOne({
                     where: {month: req.body.month},
-                    defaults: {
-                        earnings: req.body.earnings,
-                        UserId: req.params.id
-                    }
                 })
-                    .then(function (err, data) {
-                        res.redirect("/dashboard/" + req.params.id + "/" + req.body.month)
+                    .then(function (data) {
+                        console.log(data.totalExpenses)
+                        db.Budget.findOrCreate({
+                            where: {month: req.body.month},
+                            defaults: {
+                                totalExpenses: data.totalExpenses,
+                                earnings: req.body.earnings,
+                                UserId: req.params.id
+                            }
+                        })
+                            .then(function (err, data) {
+                                var route = "/dashboard/" + req.params.id + "/" + req.body.month
+                                res.redirect(route)
+                            })
                     })
         })
 })
@@ -76,8 +80,6 @@ module.exports = function (app) {
         })(req, res, next);
     });
 
-// As with any middleware it is quintessential to call next()
-// if the user is authenticated
     var isAuthenticated = function (req, res, next) {
         if (req.isAuthenticated())
             return next();
@@ -88,11 +90,49 @@ module.exports = function (app) {
         res.render("failure")
     });
 
+    app.get("/:id/goal", isAuthenticated, function (req, res) {
+        console.log(req.user)
+        res.render("goal", req.user)
+    })
+
+    app.post("/:id/goal", function (req, res) {
+        db.Goal.findOne({
+            where: {UserId: req.params.id}}
+        )
+            .then(function (data) {
+                if (!data) {
+                    db.Goal.create({
+                        targetGoal: req.body.targetGoal,
+                        UserId: req.params.id
+                    })
+                        .then(function (data) {
+                            console.log("created a goal")
+                            res.redirect("/dashboard/" + req.params.id )
+                        })
+                }
+                    db.Goal.update({
+                        targetGoal: req.body.targetGoal},
+                        {where: {UserId: req.params.id}
+                    })
+                        .then(function (data) {
+                            console.log("updated a goal")
+                            res.redirect("/dashboard/" + req.params.id )
+                        })
+
+            })
+    })
+
     app.get("/dashboard/:id/", isAuthenticated , function (req, res) {
-        var hbsObject =  req.user;
-        //res.json(hbsObject);
-        res.render("dashboard", hbsObject);
-    });
+        db.User.findOne({ where: {id: req.params.id},
+            include: [db.Goal, db.Budget, db.Expense]
+        } )
+            .then(function (data) {
+                var hbsObject = {User: data,
+                };
+                //res.json(hbsObject)
+                res.render("dashboard", hbsObject)
+            })
+    })
 
     app.get("/dashboard/:id/:month", function (req, res) {
         db.User.findOne({ where: {id: req.params.id},
@@ -102,9 +142,10 @@ module.exports = function (app) {
         ]
         } )
             .then(function (data) {
-                var hbsObject = {User: data};
-                //res.json(data);
-                //console.log(data.id);
+                var hbsObject = {User: data,
+                                totalExpenses: data.Expenses[0].totalExpenses,
+                                savings: data.Budgets[0].savings
+                };
                 res.render("dashsummary", hbsObject)
             })
     })
@@ -127,8 +168,6 @@ module.exports = function (app) {
         } )
             .then(function (data) {
                 var hbsObject = {User: data};
-                //res.json(data);
-                //console.log(data.id);
                 res.render("edit", hbsObject)
             })
 
@@ -138,13 +177,45 @@ module.exports = function (app) {
         res.render("create");
     });
 
-    app.get("/:id/add", function (req, res) {
+    app.get("/:id/add",isAuthenticated, function (req, res) {
+        console.log(req.user)
         res.render("add", req.user);
     });
 
     //Update customer's info for selected month
     app.put("/dashboard/:id/:month/edit", function (req, res) {
-        res.send(req.body.mrg + " " + req.body.utl)
+        db.Expense.update({
+            mortgage : req.body.mortgage,
+            groceries : req.body.groceries,
+            gas: req.body.gas,
+            miscellaneous: req.body.miscellaneous,
+            utilities: req.body.utilities
+        }, {
+            where: {
+                UserId: req.params.id,
+                month: req.params.month
+            }
+        }).then(function (err, data) {
+            db.Expense.findOne({
+                where: {month: req.params.month},
+            })
+                .then(function (data) {
+                    console.log(data.totalExpenses)
+                    db.Budget.update({
+                        earnings: req.body.earnings,
+                        totalExpenses: data.totalExpenses,
+                    }, {
+                        where: {
+                            UserId: req.params.id,
+                            month: req.params.month
+                        }
+                    })
+                        .then(function (err, data) {
+                            var route = "/dashboard/" + req.params.id + "/" + req.params.month
+                            res.redirect(route)
+                        })
+                })
+        })
     });
 
 

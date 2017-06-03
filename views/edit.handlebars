@@ -19,11 +19,11 @@
             <div class="form-group">
                 <h2>Edit {{User.Budgets.[0].month}}</h2>
                 <label for="mrg">Mortgage:</label>
-                <input type="text" class="form-control" name="mrg" value="{{User.Expenses.[0].mortgage}}">
+                <input type="text" class="form-control" name="mortgage" value="{{User.Expenses.[0].mortgage}}">
             </div>
             <div class="form-group">
-                <label for="utl">Utilities:</label>
-                <input type="text" class="form-control" name="utl" value="{{User.Expenses.[0].utilities}}">
+                <label for="utl">Groceries:</label>
+                <input type="text" class="form-control" name="groceries" value="{{User.Expenses.[0].utilities}}">
             </div>
             <div class="form-group">
                 <label for="gas">Gas:</label>
@@ -31,15 +31,15 @@
             </div>
             <div class="form-group">
                 <label for="mis">Miscellaneous:</label>
-                <input type="text" class="form-control" name="mis" value="{{User.Expenses.[0].miscellaneous}}">
+                <input type="text" class="form-control" name="miscellaneous" value="{{User.Expenses.[0].miscellaneous}}">
             </div>
             <div class="form-group">
                 <label for="utl">Utilities:</label>
-                <input type="text" class="form-control" name="utl" value="{{User.Expenses.[0].utilities}}">
+                <input type="text" class="form-control" name="utilities" value="{{User.Expenses.[0].utilities}}">
             </div>
             <div class="form-group">
-                <label for="sal">Monthly Salary:</label>
-                <input type="text" class="form-control" name="sal" value="{{User.Budgets.[0].salary}}">
+                <label for="sal">Monthly Earnings:</label>
+                <input type="text" class="form-control" name="earnings" value="{{User.Budgets.[0].earnings}}">
             </div>
             <button type="submit" class="btn btn-default">Submit</button>
         </form>

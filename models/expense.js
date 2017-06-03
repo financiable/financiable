@@ -36,6 +36,15 @@ module.exports = function(sequelize, DataTypes) {
             }
         },
         {
+            getterMethods: {
+                totalExpenses: function () {
+                    return this.getDataValue('groceries')
+                        + this.getDataValue('gas')
+                        + this.getDataValue('mortgage')
+                        + this.getDataValue('utilities')
+                        + this.getDataValue('miscellaneous')
+                }
+            },
             freezeTableName: true,
             classMethods: {
                 associate: function (models) {
