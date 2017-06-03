@@ -4,8 +4,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<!-- Navigation -->
-<a href="/logout">Log Out</a>
 
 <!-- Page Content -->
 <div class="container">
@@ -68,25 +66,31 @@
 
         </ul>
     </div>
-</div>
-    <br>
-<div class = "summaryButtonEdit">
-<form action="/dashboard/{{User.id}}/{{User.Budgets.[0].month}}/edit" method="GET">
-        <button type="submit" class="btn btn-primary btn-lg"> Edit </button>
-    </form>
+
+
+        <form action="/dashboard/{{User.id}}/{{User.Budgets.[0].month}}/edit" method="GET">
+            <button type="submit" class="btn btn-primary btn-md"> Edit </button>
+        </form>
+
+
+
+        <form action="/{{User.id}}/goal" method="GET">
+            <button type="submit" class="btn btn-primary btn-md"> Change Monthly Goal </button>
+        </form>
+
+
+
+        <form action="/{{User.id}}/add" method="GET">
+            <button type="submit" class="btn btn-primary btn-md"> Add Month </button>
+        </form>
+
+
 </div>
 
-<div class = "summaryButtonGoal">
-    <form action="/{{User.id}}/goal" method="GET">
-        <button type="submit" class="btn btn-primary btn-lg"> Change Goal </button>
-    </form>
-</div>
 
-<div class = "summaryButtonAdd">
-    <form action="/{{User.id}}/add" method="GET">
-        <button type="submit" class="btn btn-primary btn-lg"> Add </button>
-    </form>
-</div>
-
+<!-- Navigation -->
+<form action="/logout" class="logout" method="GET">
+    <button type="submit" class="btn bg-danger btn-lg"> Log Out</button>
+</form>
 
 
