@@ -18,20 +18,19 @@
         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Month
             <span class="caret"></span></button>
         <ul class="dropdown-menu">
-
-            {{#each Budgets}}
-                <li><a href="/dashboard/{{../id}}/{{this.month}}">{{this.month}}</a></li>
+            {{#each User.Budgets}}
+                <li><a href="/dashboard/{{this.UserId}}/{{this.month}}">{{this.month}}</a></li>
             {{/each}}
 
         </ul>
     </div>
 
 
-        <form action="/{{this.id}}/goal" method="GET">
+        <form action="/{{User.id}}/goal" method="GET">
             <button type="submit" class="btn btn-primary btn-md"> Goal </button>
         </form>
 
-    <form action="/{{this.id}}/add" method="GET">
+    <form action="/{{User.id}}/add" method="GET">
         <button type="submit" class="btn btn-primary btn-md"> Add </button>
     </form>
 

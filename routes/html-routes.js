@@ -102,7 +102,8 @@ module.exports = function (app) {
             .then(function (data) {
                 if (!data) {
                     db.Goal.create({
-                        targetGoal: req.body.targetGoal
+                        targetGoal: req.body.targetGoal,
+                        UserId: req.params.id
                     })
                         .then(function (data) {
                             console.log("created a goal")
@@ -122,9 +123,16 @@ module.exports = function (app) {
     })
 
     app.get("/dashboard/:id/", isAuthenticated , function (req, res) {
-        var hbsObject =  req.user;
-        res.render("dashboard", hbsObject);
-    });
+        db.User.findOne({ where: {id: req.params.id},
+            include: [db.Goal, db.Budget, db.Expense]
+        } )
+            .then(function (data) {
+                var hbsObject = {User: data,
+                };
+                //res.json(hbsObject)
+                res.render("dashboard", hbsObject)
+            })
+    })
 
     app.get("/dashboard/:id/:month", function (req, res) {
         db.User.findOne({ where: {id: req.params.id},
