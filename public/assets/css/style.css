@@ -71,6 +71,7 @@ img {
     background-color: #337ab7;
     border-color: #2e6da4;
     margin-top: 10px;
+    overflow: auto;
 }
 
 navbar-form navbar-right2 {
@@ -81,17 +82,13 @@ navbar-form navbar-right2 {
 .budgetSummary {
     width:40%;
     float: left;
-    margin: 20px;
+    margin: 45px;
 }
 
-.summaryButtonAdd {
-    float: left;
-    margin-left: 475px;
-}
-
-.summaryButtonEdit {
+.btn-lg {
     float: right;
-    margin-right: 475px;
+    margin-right: 100px;
 }
+
 
 
