@@ -14,94 +14,6 @@ var db = require("../models");
 // Routes
 // =============================================================
 module.exports = function (app) {
-var mockData = [
-    {
-        id: 1,
-        name: "Bob",
-        password: "123456123",
-        updatedAt: "2017-05-24T03:17:44.854Z",
-        createdAt: "2017-05-24T03:17:44.854Z",
-        Goals: [
-            {
-                id: 1,
-                targetGoal: 30,
-                updatedAt: "2017-05-24T03:18:37.972Z",
-                createdAt: "2017-05-24T03:18:37.972Z",
-                UserId: 1
-            }
-        ],
-        Budgets: [
-            {
-                id: 1,
-                salary: 1,
-                saving: 1,
-                updatedAt: "2017-05-24T03:19:12.049Z",
-                createdAt: "2017-05-24T03:19:12.049Z",
-                UserId: 1,
-                Month: "January"
-            },
-            {
-                id: 1,
-                salary: 1,
-                saving: 1,
-                updatedAt: "2017-05-24T03:19:12.049Z",
-                createdAt: "2017-05-24T03:19:12.049Z",
-                UserId: 1,
-                Month: "May"
-            },
-            {
-                id: 1,
-                salary: 1,
-                saving: 1,
-                updatedAt: "2017-05-24T03:19:12.049Z",
-                createdAt: "2017-05-24T03:19:12.049Z",
-                UserId: 1,
-                Month: "January"
-            }
-        ],
-        Expenses: [
-            {
-                id: 1,
-                month: "may",
-                groceries: 30,
-                gas: 20,
-                mortgage: 10,
-                utilities: 12,
-                miscellaneous: 30,
-                updatedAt: "2017-05-24T03:18:59.203Z",
-                createdAt: "2017-05-24T03:18:59.203Z",
-                UserId: 1,
-                Month: "May"
-            },
-            {
-                id: 2,
-                groceries: 30,
-                gas: 10,
-                mortgage: 20,
-                utilities: 10,
-                miscellaneous: 20,
-                updatedAt: "2017-05-24T03:18:59.203Z",
-                createdAt: "2017-05-24T03:18:59.203Z",
-                UserId: 1,
-                Month: "June",
-            },
-            {
-                id: 2,
-                groceries: 30,
-                gas: 10,
-                mortgage: 20,
-                utilities: 10,
-                miscellaneous: 20,
-                updatedAt: "2017-05-24T03:18:59.203Z",
-                createdAt: "2017-05-24T03:18:59.203Z",
-                UserId: 1,
-                Month: "January",
-            },
-
-
-        ]
-    }
-];
     app.get("/test", function (req, res) {
 
         var object =  {
@@ -111,11 +23,47 @@ var mockData = [
         res.render("dashboard", object);
 
 
-    });
+    })
+
+    app.post('/create', function (req, res) {
+            db.User.findOrCreate({
+                where: {name: req.body.name},
+                defaults: {email: req.body.email, password: req.body.password}
+            })
+                .then(function (err, data) {
+                    if (err)
+                        throw err
+                    else res.redirect("/")
+                })
+        }
+
+    );
 
     app.post("/:id/add", function (req, res) {
-
-    })
+        db.Expense.findOrCreate({
+            where: {month: req.body.month},
+            defaults: {
+                mortgage: req.body.mortgage,
+                utilities: req.body.utilities,
+                gas: req.body.gas,
+                groceries: req.body.groceries,
+                miscellaneous: req.body.misc,
+                UserId: req.params.id
+            }
+        })
+            .then(function (err, data) {
+                db.Budget.findOrCreate({
+                    where: {month: req.body.month},
+                    defaults: {
+                        earnings: req.body.earnings,
+                        UserId: req.params.id
+                    }
+                })
+                    .then(function (err, data) {
+                        res.redirect("/dashboard/" + req.params.id + "/" + req.body.month)
+                    })
+        })
+})
 
     app.post('/login', function(req, res, next) {
         passport.authenticate('local-login', function(err, user) {
@@ -171,32 +119,16 @@ var mockData = [
     });
 
     app.get('/dashboard/:id/:month/edit', function (req, res) {
-        res.send("We got there");
+
     })
 
     app.get("/create", function (req, res) {
         res.render("create");
     });
 
-    app.get("/:id/add", isAuthenticated, function (req, res) {
+    app.get("/:id/add", function (req, res) {
         res.render("add", req.user);
     });
-
-    //Create a new customer profile
-    app.post('/create', function (req, res) {
-        db.User.findOrCreate({
-            where: {name: req.body.name},
-            defaults: {email: req.body.email, password: req.body.password}
-        })
-            .then(function (err, data) {
-                if (err)
-                    throw err
-                else res.redirect("/")
-            })
-        }
-
-    );
-
 
     //Update customer's info for selected month
     app.put("/dashboard/:id/:month/edit", function (req, res) {
