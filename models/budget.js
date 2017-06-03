@@ -7,13 +7,13 @@ module.exports = function(sequelize, DataTypes) {
                     len: [1]
                 }
             },
-            savings: {
-                type: DataTypes.INTEGER,
-                allowNull: false
+            totalExpenses: {
+                type:DataTypes.INTEGER,
+                defaultValue: "0"
             },
             month: {
                 type: DataTypes.STRING,
-                allowNull: false
+                defaultValue: "0"
             },
             updatedAt: {
                 type: DataTypes.DATE(3),
@@ -27,6 +27,12 @@ module.exports = function(sequelize, DataTypes) {
             }
         },
         {
+            getterMethods: {
+            savings: function () {
+                return this.getDataValue('earnings')
+                    - this.getDataValue('totalExpenses')
+            }
+        },
             freezeTableName: true,
             classMethods: {
                 associate: function (models) {
