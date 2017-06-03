@@ -11,17 +11,6 @@ var db = require("../models");
 // Routes
 // =============================================================
 module.exports = function (app) {
-    app.get("/test", function (req, res) {
-        db.Budget.findOne({
-            where: {month: "May"}
-        })
-            .then(function (data) {
-
-                console.log(data.savings)
-            })
-
-
-    })
 
     app.post('/create', function (req, res) {
             db.User.findOrCreate({
