@@ -72,3 +72,20 @@ navbar-form navbar-right2 {
 
 }
 
+.budgetSummary {
+    width:40%;
+    float: left;
+    margin: 20px;
+}
+
+.summaryButtonAdd {
+    float: left;
+    margin-left: 475px;
+}
+
+.summaryButtonEdit {
+    float: right;
+    margin-right: 475px;
+}
+
+

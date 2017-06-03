@@ -119,6 +119,18 @@ module.exports = function (app) {
     });
 
     app.get('/dashboard/:id/:month/edit', function (req, res) {
+        db.User.findOne({ where: {id: req.params.id},
+            include: [ { model: db.Goal},
+                { model: db.Budget, where: {month: req.params.month}},
+                { model: db.Expense, where: {month: req.params.month}}
+            ]
+        } )
+            .then(function (data) {
+                var hbsObject = {User: data};
+                //res.json(data);
+                //console.log(data.id);
+                res.render("edit", hbsObject)
+            })
 
     })
 
@@ -132,7 +144,7 @@ module.exports = function (app) {
 
     //Update customer's info for selected month
     app.put("/dashboard/:id/:month/edit", function (req, res) {
-
+        res.send(req.body.mrg + " " + req.body.utl)
     });
 
 

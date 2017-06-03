@@ -1,0 +1,47 @@
+<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <!-- Navigation -->
+    <a href="/logout">Log Out</a>
+
+    <!-- Page Content -->
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Financiable</h1>
+            <h3>Dashboard</h3>
+            <hr>
+        </div>
+
+        <form action="/dashboard/{{User.id}}/{{User.Budgets.[0].month}}/edit?_method=PUT" method="POST">
+            <div class="form-group">
+                <h2>Edit {{User.Budgets.[0].month}}</h2>
+                <label for="mrg">Mortgage:</label>
+                <input type="text" class="form-control" name="mrg" value="{{User.Expenses.[0].mortgage}}">
+            </div>
+            <div class="form-group">
+                <label for="utl">Utilities:</label>
+                <input type="text" class="form-control" name="utl" value="{{User.Expenses.[0].utilities}}">
+            </div>
+            <div class="form-group">
+                <label for="gas">Gas:</label>
+                <input type="text" class="form-control" name="gas" value="{{User.Expenses.[0].gas}}">
+            </div>
+            <div class="form-group">
+                <label for="mis">Miscellaneous:</label>
+                <input type="text" class="form-control" name="mis" value="{{User.Expenses.[0].miscellaneous}}">
+            </div>
+            <div class="form-group">
+                <label for="utl">Utilities:</label>
+                <input type="text" class="form-control" name="utl" value="{{User.Expenses.[0].utilities}}">
+            </div>
+            <div class="form-group">
+                <label for="sal">Monthly Salary:</label>
+                <input type="text" class="form-control" name="sal" value="{{User.Budgets.[0].salary}}">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+

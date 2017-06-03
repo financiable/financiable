@@ -14,19 +14,73 @@
         <h3>Dashboard</h3>
         <hr>
     </div>
-    {{#each User}}
-    <h1>{{this.id}}</h1>
-    {{/each}}
-
-    <form action="/dashboard/{{User.id}}/{{User.Budgets.[0].month}}/edit" method="GET">
-        <button type="submit" class="btn btn-primary btn-md"> Edit </button>
-    </form>
-
-    <form action="/{{User.id}}/add" method="GET">
-        <button type="submit" class="btn btn-primary btn-md"> Add </button>
-    </form>
 
 
+    <div class = "budgetSummary">
+    <h4>{{User.Budgets.[0].month}} Summary</h4>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <span class="badge">{{User.Goals.[0].targetGoal}}</span>
+                Target Goal:
+            </li>
+            <li class="list-group-item">
+                <span class="badge"></span>
+                Saving:
+            </li>
+            <li class="list-group-item">
+                <span class="badge"></span>
+                Average:
+            </li>
 
 
+        </ul>
+    </div>
+
+    <div class = "budgetSummary">
+        <h4>{{User.Expenses.[0].month}} Expenses</h4>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <span class="badge">{{User.Expenses.[0].groceries}}</span>
+                Groceries:
+            </li>
+            <li class="list-group-item">
+                <span class="badge">{{User.Expenses.[0].gas}}</span>
+                Gas:
+            </li>
+            <li class="list-group-item">
+                <span class="badge">{{User.Expenses.[0].mortgage}}</span>
+                Mortgage:
+            </li>
+            <li class="list-group-item">
+                <span class="badge">{{User.Expenses.[0].utilities}}</span>
+                Utilities:
+            </li>
+            <li class="list-group-item">
+                <span class="badge">{{User.Expenses.[0].miscellaneous}}</span>
+                Miscellaneous:
+            </li>
+            <li class="list-group-item">
+                <span class="badge"></span>
+                Total Expenses:
+            </li>
+
+
+
+        </ul>
+    </div>
 </div>
+    <br>
+<div class = "summaryButtonEdit">
+<form action="/dashboard/{{User.id}}/{{User.Budgets.[0].month}}/edit" method="GET">
+        <button type="submit" class="btn btn-primary btn-lg"> Edit </button>
+    </form>
+</div>
+
+<div class = "summaryButtonAdd">
+    <form action="/{{User.id}}/add" method="GET">
+        <button type="submit" class="btn btn-primary btn-lg"> Add </button>
+    </form>
+</div>
+
+
+
