@@ -12,7 +12,6 @@ var PORT = process.env.PORT || 3000;
 var expressSession = require('express-session');
 var cookieParser = require("cookie-parser");
 var flash = require("connect-flash");
-var crypt = require("bcrypt-nodejs");
 
 var app = express();
 
